@@ -1,0 +1,8 @@
+streamlit
+openai
+pandas
+plotly
+tabulate
+faiss-cpu
+gdown==4.7.1
+dateparser
