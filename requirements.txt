@@ -1,8 +1,6 @@
-streamlit
-openai
+fastapi
+uvicorn
 pandas
-plotly
-tabulate
-faiss-cpu
-gdown==4.7.1
+openai
+python-dateutil
 dateparser
