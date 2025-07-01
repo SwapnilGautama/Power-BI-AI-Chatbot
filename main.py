@@ -17,7 +17,7 @@ CSV_URL = "https://raw.githubusercontent.com/SwapnilGautama/Power-BI-AI-Chatbot/
 df = pd.read_csv(CSV_URL, dayfirst=True, parse_dates=["Start Date", "End Date", "Target Date"])
 df["WIP Days"] = (df["End Date"] - df["Start Date"]).dt.days
 
-# KPI summary preprocessing (example: Monthly WIP summary)
+# KPI summary preprocessing (example: Monthly WIP Summary)
 df["Month"] = pd.to_datetime(df["Start Date"]).dt.to_period("M").astype(str)
 monthly_kpi_summary = (
     df.groupby("Month")
