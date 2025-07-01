@@ -97,3 +97,5 @@ async def chat_query(request: ChatRequest):
 
 # Example test: run with uvicorn like:
 # uvicorn powerbi_chatbot_backend:app --reload
+
+# Run with: uvicorn main:app --host=0.0.0.0 --port=8000
