@@ -65,35 +65,41 @@ def generate_prescriptive_response(month_name=None, year=2025):
 # Chat endpoint
 @app.post("/chat")
 async def chat_query(request: ChatRequest):
-    question = request.question
+    try:
+        question = request.question
 
-    if "wip" in question.lower() and any(m in question.lower() for m in calendar.month_name if m):
-        tokens = question.lower().split()
-        month_token = next((word for word in tokens if word.capitalize() in calendar.month_name), None)
-        return generate_prescriptive_response(month_token, request.year)
+        if "wip" in question.lower() and any(m in question.lower() for m in calendar.month_name if m):
+            tokens = question.lower().split()
+            month_token = next((word for word in tokens if word.capitalize() in calendar.month_name), None)
+            return generate_prescriptive_response(month_token, request.year)
 
-    else:
-        # General fallback using OpenAI
-        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        else:
+            # General fallback using OpenAI
+            client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-        prompt = textwrap.dedent(f"""
-        You are an AI assistant for operations analytics. Answer the following question using real data:
-        ---
-        Data summary:
-        {df.describe(include='all').fillna('-').to_string()[:1000]}...
+            prompt = textwrap.dedent(f"""
+            You are an AI assistant for operations analytics. Answer the following question using real data:
+            ---
+            Data summary:
+            {df.describe(include='all').fillna('-').to_string()[:1000]}...
 
-        Question: {question}
-        """)
+            Question: {question}
+            """)
 
-        response = client.chat.completions.create(
-            model="gpt-4",
-            messages=[
-                {"role": "system", "content": "You are a helpful analytics assistant."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.5
-        )
-        return {"response": response.choices[0].message.content}
+            response = client.chat.completions.create(
+                model="gpt-4",
+                messages=[
+                    {"role": "system", "content": "You are a helpful analytics assistant."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.5
+            )
+            return {"response": response.choices[0].message.content}
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return {"error": str(e)}
 
 # Example test: run with uvicorn like:
 # uvicorn powerbi_chatbot_backend:app --reload
