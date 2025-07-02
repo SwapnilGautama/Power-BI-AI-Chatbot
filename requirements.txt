@@ -1,6 +1,9 @@
 fastapi
-uvicorn
 pandas
+numpy
+plotly
 openai
-python-dateutil
+uvicorn
+python-multipart
+python-dotenv
 dateparser
