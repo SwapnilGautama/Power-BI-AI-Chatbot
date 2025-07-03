@@ -1,4 +1,4 @@
-# main.py
+# main.py 
 
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
@@ -95,6 +95,11 @@ def generate_wip_trend_insights(df):
 class ChatRequest(BaseModel):
     question: str
 
+# -------------------- ROOT ENDPOINT --------------------
+@app.get("/")
+def root():
+    return {"message": "✅ FastAPI is running on Azure successfully!"}
+
 # -------------------- CHAT ENDPOINT --------------------
 @app.post("/chat")
 async def chat(req: ChatRequest):
@@ -137,9 +142,3 @@ INSTRUCTIONS:
 
     except Exception as e:
         return {"response": f"❌ Error: {str(e)}"}
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000)
-
-
