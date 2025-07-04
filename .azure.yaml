@@ -1,0 +1,4 @@
+build:
+  app_location: .
+  requirements_txt: ./requirements.txt
+  run_build_command: pip install -r requirements.txt
